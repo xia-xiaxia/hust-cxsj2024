@@ -167,8 +167,8 @@ public:
         if (lexicalSuccess) {
             syntaxSuccess = performSyntaxAnalysis();
             
-            if (showDetails && syntaxSuccess) {
-                showAST();
+            if (syntaxSuccess) {
+                showAST(); // 总是显示AST
             }
         }
         

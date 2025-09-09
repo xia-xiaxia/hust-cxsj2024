@@ -1,0 +1,34 @@
+# include <stdio.h>
+# define PI 3.14159
+int  external_var = 10;
+void  nested_if_example(int  x);
+int  main() {
+    int  a = 5, x;
+    a = a + 1;
+    if (a == 6) {
+        x = 0;
+    }
+    
+    else {
+        x = 1;
+    }
+    int  i = 0;
+    while (i<5) {
+        i++;
+        if (i == 3) break;
+    }
+    for (int  j = 0; j<3; j++) {
+        int  k = 0;
+        while (k<2) {
+            k++;
+            if (k == 1) continue;
+        }
+    }
+    nested_if_example(7);
+    return 0;
+}
+void  nested_if_example(int  x) {
+    if (x>5 && external_var>0) {
+        int  y = 7;
+    }
+}

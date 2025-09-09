@@ -476,7 +476,7 @@ std::unique_ptr<ASTNode> Parser::parseStatement() {
         // 跳过参数列表
         while (!check(TokenType::RPAREN) && !isAtEnd()) {
             // 简单解析参数（类型 + 标识符）
-            if (check(TokenType::INT) || check(TokenType::FLOAT_KW) || check(TokenType::CHAR)) {
+            if (check(TokenType::INT) || check(TokenType::FLOAT_KW) || check(TokenType::CHAR) || check(TokenType::VOID)) {
                 std::string paramType = getCurrentToken().value;
                 advance();
                 if (check(TokenType::IDENTIFIER)) {
@@ -486,8 +486,16 @@ std::unique_ptr<ASTNode> Parser::parseStatement() {
                         std::make_unique<VarDeclarationNode>(paramType, paramName)
                     );
                 }
+            } else if (check(TokenType::IDENTIFIER)) {
+                // 如果遇到标识符作为类型，这可能是错误的类型名
+                std::string invalidType = getCurrentToken().value;
+                recordError("Unknown type '" + invalidType + "' in function parameter");
+                advance(); // 跳过错误的类型
+                if (check(TokenType::IDENTIFIER)) {
+                    advance(); // 跳过参数名
+                }
             } else {
-                advance();
+                advance(); // 跳过其他token
             }
             if (match(TokenType::COMMA)) {
                 // 继续下一个参数

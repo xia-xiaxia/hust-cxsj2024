@@ -32,6 +32,7 @@ public:
     virtual ~ASTNode() = default;
     virtual std::string toString() const = 0;
     virtual void print(int indent = 0) const;
+    virtual void printChinese(int indent = 0) const;
 };
 
 /**
@@ -42,6 +43,7 @@ public:
     std::vector<std::unique_ptr<ASTNode>> statements;
     
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
     void addStatement(std::unique_ptr<ASTNode> stmt);
 };
 
@@ -56,6 +58,7 @@ public:
     
     VarDeclarationNode(const std::string& type, const std::string& id);
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**
@@ -68,6 +71,7 @@ public:
     
     AssignmentNode(const std::string& id);
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**
@@ -81,6 +85,7 @@ public:
     
     BinaryExpressionNode(const std::string& op);
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**
@@ -93,6 +98,7 @@ public:
     
     UnaryExpressionNode(const std::string& op);
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**
@@ -105,6 +111,7 @@ public:
     
     LiteralNode(const std::string& val, TokenType t);
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**
@@ -116,6 +123,7 @@ public:
     
     IdentifierNode(const std::string& n);
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**
@@ -128,6 +136,7 @@ public:
     std::unique_ptr<ASTNode> elseStatement;
     
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**
@@ -139,6 +148,7 @@ public:
     std::unique_ptr<ASTNode> body;
     
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**
@@ -149,6 +159,7 @@ public:
     std::vector<std::unique_ptr<ASTNode>> statements;
     
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
     void addStatement(std::unique_ptr<ASTNode> stmt);
 };
 
@@ -160,6 +171,106 @@ public:
     std::unique_ptr<ASTNode> expression;
     
     std::string toString() const override;
+    void printChinese(int indent = 0) const override;
+};
+
+/**
+ * 预处理指令节点
+ */
+class PreprocessorDirectiveNode : public ASTNode {
+public:
+    std::string directive; // include, define等
+    std::string content;   // 指令内容
+    
+    PreprocessorDirectiveNode(const std::string& dir, const std::string& cont);
+    std::string toString() const override;
+    void printChinese(int indent = 0) const override;
+};
+
+/**
+ * 函数声明节点
+ */
+class FunctionDeclarationNode : public ASTNode {
+public:
+    std::string returnType;
+    std::string name;
+    std::vector<std::unique_ptr<ASTNode>> parameters;
+    
+    FunctionDeclarationNode(const std::string& retType, const std::string& funcName);
+    std::string toString() const override;
+    void printChinese(int indent = 0) const override;
+};
+
+/**
+ * 函数定义节点
+ */
+class FunctionDefinitionNode : public ASTNode {
+public:
+    std::string returnType;
+    std::string name;
+    std::vector<std::unique_ptr<ASTNode>> parameters;
+    std::unique_ptr<ASTNode> body;
+    
+    FunctionDefinitionNode(const std::string& retType, const std::string& funcName);
+    std::string toString() const override;
+    void printChinese(int indent = 0) const override;
+};
+
+/**
+ * 表达式语句节点
+ */
+class ExpressionStatementNode : public ASTNode {
+public:
+    std::unique_ptr<ASTNode> expression;
+    
+    ExpressionStatementNode(std::unique_ptr<ASTNode> expr);
+    std::string toString() const override;
+    void printChinese(int indent = 0) const override;
+};
+
+/**
+ * 函数调用节点
+ */
+class FunctionCallNode : public ASTNode {
+public:
+    std::string name;
+    std::vector<std::unique_ptr<ASTNode>> arguments;
+    
+    FunctionCallNode(const std::string& funcName);
+    std::string toString() const override;
+    void printChinese(int indent = 0) const override;
+};
+
+/**
+ * For语句节点
+ */
+class ForStatementNode : public ASTNode {
+public:
+    std::unique_ptr<ASTNode> initialization;
+    std::unique_ptr<ASTNode> condition;
+    std::unique_ptr<ASTNode> update;
+    std::unique_ptr<ASTNode> body;
+    
+    std::string toString() const override;
+    void printChinese(int indent = 0) const override;
+};
+
+/**
+ * Break语句节点
+ */
+class BreakStatementNode : public ASTNode {
+public:
+    std::string toString() const override;
+    void printChinese(int indent = 0) const override;
+};
+
+/**
+ * Continue语句节点
+ */
+class ContinueStatementNode : public ASTNode {
+public:
+    std::string toString() const override;
+    void printChinese(int indent = 0) const override;
 };
 
 /**

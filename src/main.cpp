@@ -133,13 +133,11 @@ public:
             return;
         }
         
-        std::cout << "\n=== Abstract Syntax Tree ===" << std::endl;
-        ast->print();
-        
-        // 递归打印所有语句
+        // 使用中文格式打印所有语句
         for (size_t i = 0; i < ast->statements.size(); ++i) {
-            std::cout << "Statement " << i + 1 << ":" << std::endl;
-            ast->statements[i]->print(1);
+            if (ast->statements[i]) {
+                ast->statements[i]->printChinese(0);
+            }
         }
     }
     

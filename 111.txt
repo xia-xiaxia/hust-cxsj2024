@@ -1,7 +1,7 @@
 # include <stdio.h>
 # define PI 3.14159
 int external_var = 10;
-void nested_if_example(int1 x);
+void nested_if_example(int x);
 int main() {int a=5,x; a=a+1; // 我是注释
     if (a == 6) {x = 0;}
 	else {x = 1;}
@@ -17,4 +17,4 @@ void nested_if_example(int x) {
     if (x > 5 && external_var > 0) {
 		int y = 7;
     }
-})
+}
